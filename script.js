@@ -105,21 +105,6 @@ window.addEventListener('wheel', (event) => {
     }
 });
 
-
-const codeXeno = document.querySelector('#home p');
-const realName = document.getElementById('realName');
-const dots = document.querySelector('.dots');
-
-codeXeno.addEventListener('mouseenter', function () {
-    dots.style.display = 'none'; // Hide dots
-    realName.style.display = 'inline-block'; // Show real name
-    realName.style.opacity = '1'; // Optional: Fade-in effect can be added here
-});
-
-codeXeno.addEventListener('mouseleave', function () {
-    dots.style.display = 'inline-block'; // Show dots again
-    realName.style.display = 'none'; // Hide real name
-});
 const hamburger = document.getElementById('hamburger');
 const navbarMenu = document.getElementById('navbarMenu');
 
@@ -159,7 +144,6 @@ function handleTouchMove(event) {
     xStart = null;
 }
 
-
 // Close the menu when clicking outside of it
 document.addEventListener('click', (event) => {
     const isClickInsideMenu = navbarMenu.contains(event.target);
@@ -169,5 +153,3 @@ document.addEventListener('click', (event) => {
         navbarMenu.classList.remove('visible'); // Close the menu
     }
 });
-
-

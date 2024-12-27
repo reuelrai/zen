@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classmate Voting</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .votes {
+            margin-top: 20px;
+        }
+        .vote-item {
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Vote for Your Favorite Classmate</h1>
+    <div id="vote-buttons">
+        <!-- Buttons will be dynamically added here -->
+    </div>
+    <h2>Live Vote Counts</h2>
+    <div id="votes">
+        <!-- Vote counts will be dynamically displayed here -->
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000';
+
+        async function fetchVotes() {
+            const response = await fetch(`${API_URL}/votes`);
+            const data = await response.json();
+            const votesDiv = document.getElementById('votes');
+            votesDiv.innerHTML = '';
+
+            data.forEach(({ name, count }) => {
+                const voteItem = document.createElement('div');
+                voteItem.className = 'vote-item';
+                voteItem.id = `vote-${name}`;
+                voteItem.textContent = `${name}: ${count} votes`;
+                votesDiv.appendChild(voteItem);
+            });
+        }
+
+        async function voteFor(name) {
+            await fetch(`${API_URL}/vote`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name }),
+            });
+            fetchVotes();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const classmates = ['Alice', 'Bob', 'Charlie', 'Diana'];
+            const voteButtons = document.getElementById('vote-buttons');
+
+            classmates.forEach(name => {
+                const button = document.createElement('button');
+                button.textContent = `Vote for ${name}`;
+                button.onclick = () => voteFor(name);
+                voteButtons.appendChild(button);
+            });
+
+            fetchVotes();
+        });
+    </script>
+</body>
+</html>
